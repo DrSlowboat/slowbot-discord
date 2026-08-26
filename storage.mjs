@@ -35,3 +35,11 @@ export function removeGuildFromWhitelist(guildId) {
   console.log("Notice: Whitelist command is disabled. Managed via Environment Variables.");
   return false;
 }
+
+export function isGuildWhitelisted(guildId) {
+  // Pull the current list of servers from memory (which loadData already parsed from Northflank)
+  const currentData = loadData();
+  
+  // Return true if the guildId is found in the array of whitelisted servers
+  return currentData.servers.includes(guildId);
+}
