@@ -25,3 +25,13 @@ export function saveData(newData) {
   }
   // Note: We don't save 'servers' here because they are managed via your Cloud Service Providers Environment Variables
 }
+
+export function addGuildToWhitelist(guildId) {
+  console.log("Notice: Whitelist command is disabled. Managed via Environment Variables.");
+  return false; 
+}
+
+export function removeGuildFromWhitelist(guildId) {
+  console.log("Notice: Whitelist command is disabled. Managed via Environment Variables.");
+  return false;
+}
