@@ -19,7 +19,7 @@ async function checkWarframeAPI() {
 
   try {
     // 1. Define your proxy here (replace with a working free proxy IP and port)
-    const proxyAgent = new ProxyAgent("http://151.185.59.36:8080");
+    const proxyAgent = new ProxyAgent("http://64.112.184.210:3128");
 
     // 2. Attach the proxy agent as the dispatcher
     const response = await fetch("https://api.warframe.com/cdn/worldState.php", {
