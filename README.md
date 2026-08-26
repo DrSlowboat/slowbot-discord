@@ -52,42 +52,27 @@ To start off with, you're going to need to create a Discord app through their [D
 
 ### How to Host Your Own Instance
 
-You will need to host this bot on a Virtual Private Server (VPS) so it runs 24/7. Below are the two best free/low-cost methods depending on your GitHub account age and activity.
+You will need to host this bot on a Virtual Private Server (VPS) so it runs 24/7. My personal choice is Northflank, though Railway and Koyeb are also great options and this bot is pre-configured to work with those.
 
-#### Option A: Railway (For New GitHub Accounts)
+#### Northflank Setup Guide
 
-Railway is the easiest platform to use and provides you with $5 of credit for the first 30 days of use. For every month after that, on its free plan, you get $1 of credit. So long as this is the only thing you're hosting on Railway, you shouldn't ever need to top up or provide any card details. Railway is the platform I use to host the bot since it's quick, reliable, and very easy to navigate.
+I use Northflank just because it's free and does the job. Railway is paid and Koyeb has pretty stringent restrictions on who's eligible for its hobbyist tier but you do get extra features on those like free persistent storage if you want to make use of the whitelist command instead of manually whitelisting servers in your ENV variables.
 
-Because this repository includes a `railway.toml` configuration file, Railway will automatically handle the build process and start commands for you. 
-
-To create your own version of this app on Railway::
+To create your own version of this app on Northflank:
 
 1. Fork this repository.
-2. Go to [Railway.app](https://railway.app/) and sign in with GitHub.
+2. Go to [Northflank](https://app.northflank.com) and sign in with GitHub.
 3. Click **New Project** -> **Deploy from GitHub repo** -> Select your fork.
 4. Go to the **Variables** tab in your Railway project and add the following:
    * `TOKEN`: Your Discord Bot Token (the token you generated)
    * `CLIENT_ID`: Your Discord Bot Client ID (The Application ID)
 	* `OWNER_ID`: Your Discord User ID. You can find out what this is by swapping to developer mode, clicking on your user and copying your user ID. 
-5. Because cloud platforms use ephemeral storage, use `Ctrl/Cmd+K` in the bot's environment and search for "volume".
-6. Create a volume, then attach it to your service and set the mount point as `/app/.data`.
-7. Once that's done, Railway will take care of the rest. You're good to go! 
-
-#### Option B: Koyeb (For Established GitHub Accounts)
-
-Koyeb's hobbyist tier is free, but strictly verifies GitHub accounts to ensure they have an established history. Although I host my iteration of the bot on Railway, I have already implemented code to ensure that it stays awake on Koyeb's hobbyist VPS plan.
-
-1. Fork this repository.
-2. Go to [Koyeb.com](https://www.koyeb.com/) and sign in with GitHub.
-3. Click **Create Web Service** -> Select **GitHub** -> Choose your fork.
-4. Under the **Environment Variables** section, add your `TOKEN`, `CLIENT_ID` and `OWNER_ID`.
-5. Expand the **Builder** section, toggle the **Run command** override, and paste: `node register.mjs && node controller.mjs`
-6. Expand the **Volumes** section, create a volume, and set the mount path to `/app/.data`.
-7. Name your service and click **Deploy**. The built-in health-check server will ensure Koyeb keeps the bot awake.
+   * `WHITELISTED_SERVERS`: Use Discord's developer mode to copy the server IDs you want the bot to function in, then paste them here separated by commas
+5. Once that's done, Northflank will take care of the rest. You're good to go! 
 
 ### How to Install The Bot on your Server
 
-Once the bot is deployed on the VPS of your choice, all that's left to do is install it. Click the OAuth2 link you generated earlier to add it to your server. Use the `/guide` and `/setup` commands as an administrator of the server in a text/announcements channel. Next, add the servers you'd like to share your iteration of the bot with to your server whitelist. To do this, as the owner of the bot type `/whitelist` copy the server IDs (again, you can find these out by right clicking on a server in developer mode) abd send out the OAuth2 link you generated to the other servers you'd like to have in your network! 
+Once the bot is deployed on the VPS of your choice, all that's left to do is install it. Click the OAuth2 link you generated earlier to add it to your server. Use the `/guide` and `/setup` commands as an administrator of the server in a text/announcements channel. 
 
 And that's it! Your iteration of Cephalon Slowbot is up and running! Go turn some thrax into prime parts and arcanes! 
 
