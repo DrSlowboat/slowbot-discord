@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import { loadData } from './storage.mjs';
+import { fetch, ProxyAgent } from 'undici';
 
 // Export to posts
 export const cascadeEvents = new EventEmitter();
@@ -9,7 +10,7 @@ export function startPolling() {
 }
 
 async function checkWarframeAPI() {
-  console.log("=== CRON TOCK: Checking Community Proxy API ===");
+  console.log("=== CRON TOCK: Checking DE Raw API via Proxy ===");
   const db = loadData();
   const nowSecs = Math.floor(Date.now() / 1000);
   
@@ -17,30 +18,35 @@ async function checkWarframeAPI() {
   const timeToWaitMs = 60000; 
 
   try {
-    // Calling the community fissures endpoint directly
-    const response = await fetch("https://api.warframestat.us/pc/fissures", {
-      headers: { "User-Agent": "Cephalon-Slowbot/6.0 (Modularized)" }
+    // 1. Define your proxy here (replace with a working free proxy IP and port)
+    const proxyAgent = new ProxyAgent("http://151.185.59.36:8080");
+
+    // 2. Attach the proxy agent as the dispatcher
+    const response = await fetch("https://api.warframe.com/cdn/worldState.php", {
+      dispatcher: proxyAgent,
+      headers: { 
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json"
+      }
     });
 
     if (!response.ok) {
-      console.error(`Community Proxy Error: ${response.status}`);
+      console.error(`DE API Error: ${response.status}`);
       setTimeout(checkWarframeAPI, timeToWaitMs);
       return;
     }
 
-    const fissures = await response.json();
+    const worldState = await response.json();
     
-    // The proxy uses standard string names instead of raw DE node keys
-    const rawTarget = fissures.find(m => 
-      m.node.includes("Tuvul Commons") && 
-      m.missionType === "Void Cascade" &&
-      m.isHard === true
+    const rawTarget = worldState.ActiveMissions.find(m => 
+      m.Node === "SolNode232" && 
+      m.MissionType === "MT_VOID_CASCADE" &&
+      m.Hard === true
     );
 
     if (rawTarget) {
-      const targetId = rawTarget.id;
-      // Convert standard ISO date string to seconds
-      const targetExpirySecs = Math.floor(new Date(rawTarget.expiry).getTime() / 1000);
+      const targetId = rawTarget._id.$oid;
+      const targetExpirySecs = Math.floor(parseInt(rawTarget.Expiry.$date.$numberLong) / 1000);
 
       // Avoids ghost cascades
       if ((targetExpirySecs - nowSecs) > 300) {
