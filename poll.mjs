@@ -17,7 +17,7 @@ async function checkWarframeAPI() {
   const timeToWaitMs = 60000; 
 
   try {
-    const response = await fetch("https://content.warframe.com/dynamic/worldState.php", {
+    const response = await fetch("https://api.warframe.com/cdn/worldState.php", {
       headers: { "User-Agent": "Cephalon-Slowbot/6.0 (Modularized)" }
     });
 

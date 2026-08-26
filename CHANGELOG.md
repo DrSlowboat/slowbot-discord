@@ -1,4 +1,8 @@
 # Changelog
+
+## 1.3.0
+Updated for new warframe API.
+
 ## 1.2.0
 Added server whitelisting to ensure network safety.
 
