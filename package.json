@@ -19,6 +19,7 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^14.25.1",
+    "mongodb": "^7.6.0",
     "undici": "^8.10.0"
   }
 }

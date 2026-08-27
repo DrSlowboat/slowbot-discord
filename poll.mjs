@@ -10,25 +10,27 @@ export function startPolling() {
 }
 
 async function checkWarframeAPI() {
-  console.log("=== CRON TOCK: Checking DE Raw API via Proxy ===");
+  console.log("Checking DE API");
   const db = loadData();
   const nowSecs = Math.floor(Date.now() / 1000);
   
-  // Poller
+  // Poller interval
   const timeToWaitMs = 60000; 
 
   try {
-    // 1. Define your proxy here (replace with a working free proxy IP and port)
-    const proxyAgent = new ProxyAgent("http://64.112.184.210:3128");
-
-    // 2. Attach the proxy agent as the dispatcher
-    const response = await fetch("https://api.warframe.com/cdn/worldState.php", {
-      dispatcher: proxyAgent,
+    const fetchOptions = {
       headers: { 
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
         "Accept": "application/json"
       }
-    });
+    };
+
+    // Use ProxyAgent if PROXY_URL is configured in environment variables
+    if (process.env.PROXY_URL) {
+      fetchOptions.dispatcher = new ProxyAgent(process.env.PROXY_URL);
+    }
+
+    const response = await fetch("https://api.warframe.com/cdn/worldState.php", fetchOptions);
 
     if (!response.ok) {
       console.error(`DE API Error: ${response.status}`);
@@ -51,7 +53,7 @@ async function checkWarframeAPI() {
       // Avoids ghost cascades
       if ((targetExpirySecs - nowSecs) > 300) {
         if (!db.activeCascade || targetId !== db.activeCascade.id) {
-          console.log("Cascade detected! Emitting 'newCascade' event.");
+          console.log("Cascade detected. Emitting 'newCascade' event.");
           
           cascadeEvents.emit('newCascade', {
             id: targetId,

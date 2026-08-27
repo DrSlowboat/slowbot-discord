@@ -1,64 +1,23 @@
-import { loadData, saveData, addGuildToWhitelist, removeGuildFromWhitelist } from './storage.mjs';
+import { saveServerConfig } from './storage.mjs';
 
 export async function handleInteraction(interaction, client) {
   // Setup command
-  if (interaction.isChatInputCommand() && interaction.commandName === 'setup') {
-    if (!interaction.memberPermissions.has('ManageGuild')) {
-      return interaction.reply({ content: "You need 'Manage Server' permission.", ephemeral: true });
-    }
-    const targetChannel = interaction.options.getChannel('channel');
-    const targetRole = interaction.options.getRole('role'); 
-    const guildId = interaction.guild.id;
+  if (interaction.commandName === 'setup') {
+  const channel = interaction.options.getChannel('channel');
+  const role = interaction.options.getRole('role'); // This can be null
 
-    if (!targetChannel.isTextBased()) return interaction.reply({ content: "Select a valid text channel.", ephemeral: true });
+  // Send the IDs to MongoDB
+  await saveServerConfig(
+    interaction.guildId,
+    channel.id,
+    role ? role.id : null
+  );
 
-    let db = loadData();
-    if (!db.servers) db.servers = {}; 
-    
-    // This correctly overwrites any existing setup for this guild
-    db.servers[guildId] = { channelId: targetChannel.id, roleId: targetRole ? targetRole.id : null };
-    await saveData(db);
-
-    const rolePingText = targetRole ? `and pinging **@${targetRole.name}**` : `without any role pings`;
-    await interaction.reply({ content: `**Setup Complete!**\nAlerts will be posted in <#${targetChannel.id}> ${rolePingText}.`, ephemeral: true });
-    
-    return;
-  }
-
-  // Whitelist Command (Owner Only)
-  if (interaction.isChatInputCommand() && interaction.commandName === 'whitelist') {
-    const ownerId = process.env.OWNER_ID;
-
-    // The security check
-    if (interaction.user.id !== ownerId) {
-      return interaction.reply({
-        content: "Nice try, but only the Cephalon's creator can authorize new relays.",
-        ephemeral: true
-      });
-    }
-
-    const subcommand = interaction.options.getSubcommand();
-    const serverId = interaction.options.getString('server_id');
-
-    if (subcommand === 'add') {
-      const added = await addGuildToWhitelist(serverId);
-      if (added) {
-        return interaction.reply({ content: `✅ Server \`${serverId}\` has been successfully whitelisted.`, ephemeral: true });
-      } else {
-        return interaction.reply({ content: `⚠️ Server \`${serverId}\` is already on the whitelist.`, ephemeral: true });
-      }
-    }
-
-    if (subcommand === 'remove') {
-      const removed = await removeGuildFromWhitelist(serverId);
-      if (removed) {
-        return interaction.reply({ content: `🛑 Server \`${serverId}\` has been removed from the whitelist.`, ephemeral: true });
-      } else {
-        return interaction.reply({ content: `⚠️ Server \`${serverId}\` was not on the whitelist.`, ephemeral: true });
-      }
-    }
-    return;
-  }
+  await interaction.reply({ 
+    content: `Setup complete! I will post Cascade LFG boards in <#${channel.id}>.`, 
+    ephemeral: true 
+  });
+}
 
   // Guide Command
   if (interaction.isChatInputCommand() && interaction.commandName === 'guide') {

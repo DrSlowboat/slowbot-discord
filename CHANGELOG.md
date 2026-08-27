@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.4.0
+Migrated databases to MongoDB to prevent ephemeral storage issues and prevent overhead costs from northflank persistent volumes.
+
 ## 1.3.0
 Updated for new warframe API.
 

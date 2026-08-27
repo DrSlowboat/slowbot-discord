@@ -20,33 +20,8 @@ const commands = [
   // Guide command
   new SlashCommandBuilder()
     .setName('guide')
-    .setDescription('Displays the cross-server LFG rules and Void Cascade guides'),
-
-  // Whitelist command (Owner Only)
-  new SlashCommandBuilder()
-    .setName('whitelist')
-    .setDescription('Manage the bot server whitelist (Owner only)')
-    .addSubcommand(subcommand =>
-      subcommand
-        .setName('add')
-        .setDescription('Add a server to the whitelist')
-        .addStringOption(option =>
-          option.setName('server_id')
-            .setDescription('The Discord ID of the server to add')
-            .setRequired(true)
-        )
-    )
-    .addSubcommand(subcommand =>
-      subcommand
-        .setName('remove')
-        .setDescription('Remove a server from the whitelist')
-        .addStringOption(option =>
-          option.setName('server_id')
-            .setDescription('The Discord ID of the server to remove')
-            .setRequired(true)
-        )
-    )
-];
+    .setDescription('Displays the cross-server LFG rules and Void Cascade guides')
+]; 
 
 const rest = new REST({ version: '10' }).setToken(TOKEN);
 

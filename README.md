@@ -21,7 +21,6 @@ Once you've invited Cephalon Slowbot (or any of its iterations) to your server, 
    * *The guide is specifically tailored to my personal beliefs about the way the bot should function. If you'd like to preview what it will post, click on the `GUIDE.md` file in this repository. If you are unhappy with it in any way, feel free to write rules that better suit your community. If you've forked this repository to create your own instance of the bot, you can edit the guide output in the `commands.mjs` file to have your instance of the bot post it instead.*
 2. Use the `/setup` command to ensure that the bot will post to the channel you've selected, and select which roles, if any, you'd like it to ping.
 3. Wait for a fissure to pop, squad up, and get cascading!
-4. If you'd like to deploy the bot to other servers and you're the one who's created the version of the app for your LFG, use the /whitelist command and paste the server ID (viewable in discord developmental mode by right clicking the server's name) into the field it provides you. No one except the creator of the bot can currently whitelist its deployment. 
 
 ## Creating your own version of this app
 
@@ -48,26 +47,47 @@ To start off with, you're going to need to create a Discord app through their [D
    * **Mention Everyone:** This is because the `/setup` command gives admins the option to select a role to ping when a cascade pops up. If you do not want your version of the bot to be able to ping people, this is optional. 
 > **Note:** I have tried to make sure it requires the fewest permissions possible to ensure security, though bear in mind that being able to embed links, send messages, and mention people still carries risk. I cannot emphasise enough how important it is to keep your token private.
 8. Note down your OAuth2 link; this is what you'll distribute to other servers to make them a part of your version of the bot's LFG network.
-> **Note:** This bot has to log the server IDs, role IDs, member IDs, and channel IDs of the servers it is configured in. This prevents the bot from 'forgetting' its configuration every time an update is pushed to the code. These aren't secrets (they can be seen in Discord Developer mode), but I did want to provide this information up front for full transparency if you're using the bot. The host will have access to this information, although there's not a lot they can do with it and they don't pose any real security risk. 
 
-### How to Host Your Own Instance
+### Create a Fork of This Repository for your Personal Use
+
+1. Fork the repo, then fetch it to the location of your choice.
+2. Navigate to the directory in your terminal and run 
+\`\`\`bash
+npm install
+\`\`\`
+This will automatically read the \`package.json\` and install the necessary packages.
+*   **discord.js:** The core library for interacting with the Discord API.
+*   **mongodb:** The official driver for connecting the bot to a MongoDB Atlas database.
+*   **undici:** Used for the ProxyAgent to bypass API firewalls during polling.
+
+### Create an account on MongoDB
+
+1. Go to [MongoDB Atlas](https://www.mongodb.com/atlas) and create a free account.
+2. Deploy a **Free M0 Cluster**.
+3. Under **Database Access**, create a new database user and save the password.
+4. Under **Network Access**, add the IP \`0.0.0.0/0\` so your cloud host can connect to it.
+5. Click **Connect**, select **Drivers** (Node.js), and copy your connection string. 
+6. Replace \`<password>\` in the string with your database user password and save this for later, you'll be using this in your Variables in the next step.
+
+### Host Your Own Instance
 
 You will need to host this bot on a Virtual Private Server (VPS) so it runs 24/7. My personal choice is Northflank, though Railway and Koyeb are also great options and this bot is pre-configured to work with those.
 
 #### Northflank Setup Guide
 
-I use Northflank just because it's free and does the job. Railway is paid and Koyeb has pretty stringent restrictions on who's eligible for its hobbyist tier but you do get extra features on those like free persistent storage if you want to make use of the whitelist command instead of manually whitelisting servers in your ENV variables.
+I use Northflank just because it's free and does the job. Railway and Koyeb are also great alternatives.
 
 To create your own version of this app on Northflank:
 
 1. Fork this repository.
 2. Go to [Northflank](https://app.northflank.com) and sign in with GitHub.
 3. Click **New Project** -> **Deploy from GitHub repo** -> Select your fork.
-4. Go to the **Variables** tab in your Railway project and add the following:
+4. Go to the **Variables** tab in your Northflank project and add the following:
    * `TOKEN`: Your Discord Bot Token (the token you generated)
    * `CLIENT_ID`: Your Discord Bot Client ID (The Application ID)
 	* `OWNER_ID`: Your Discord User ID. You can find out what this is by swapping to developer mode, clicking on your user and copying your user ID. 
-   * `WHITELISTED_SERVERS`: Use Discord's developer mode to copy the server IDs you want the bot to function in, then paste them here separated by commas
+   * `MONGO_URI`: This is the MongoDB where your bot's server, channel and role list will be stored.
+   * `PROXY_URL`: This is in case your Proxy fails to poll the Warframe API. Just change the proxy URL here (look for elite proxies that are https and google accessible on your free proxy website of choice.
 5. Once that's done, Northflank will take care of the rest. You're good to go! 
 
 ### How to Install The Bot on your Server

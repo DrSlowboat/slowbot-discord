@@ -1,45 +1,65 @@
-// In-memory temporary database
+import { MongoClient } from 'mongodb';
+
+// Temporary RAM for active LFGs
 let memoryDb = {
   activeCascade: null,
-  squads: []
+  squads: [],
+  servers: [] // Fetched from MongoDB on boot
 };
 
-export function loadData() {
-  // Pull servers from Northflank and parse them into an array
-  const rawWhitelist = process.env.WHITELISTED_SERVERS || "";
-  const whitelistedServers = rawWhitelist.split(',').map(id => id.trim()).filter(id => id);
+let dbClient = null;
+let serversCollection = null;
 
-  return {
-    ...memoryDb,
-    servers: whitelistedServers // Inject environment variable servers here
-  };
+// Connect to MongoDB on startup
+export async function initDatabase() {
+  const uri = process.env.MONGO_URI;
+  if (!uri) {
+    console.error("CRITICAL: MONGO_URI environment variable is missing!");
+    return;
+  }
+  
+  dbClient = new MongoClient(uri);
+  await dbClient.connect();
+  const database = dbClient.db('slowbot');
+  serversCollection = database.collection('servers');
+
+  // Load saved channels into fast memory
+  const savedServers = await serversCollection.find({}).toArray();
+  memoryDb.servers = savedServers.map(s => ({
+    id: s.guildId,
+    channel: s.channelId,
+    roleId: s.roleId
+  }));
+  console.log(`Successfully loaded ${memoryDb.servers.length} server configs from MongoDB.`);
+}
+
+export function loadData() {
+  return memoryDb;
 }
 
 export function saveData(newData) {
-  // Update the temporary in-memory state
-  if (newData.activeCascade !== undefined) {
-    memoryDb.activeCascade = newData.activeCascade;
-  }
-  if (newData.squads !== undefined) {
-    memoryDb.squads = newData.squads;
-  }
-  // Note: We don't save 'servers' here because they are managed via your Cloud Service Providers Environment Variables
+  if (newData.activeCascade !== undefined) memoryDb.activeCascade = newData.activeCascade;
+  if (newData.squads !== undefined) memoryDb.squads = newData.squads;
 }
 
-export function addGuildToWhitelist(guildId) {
-  console.log("Notice: Whitelist command is disabled. Managed via Environment Variables.");
-  return false; 
-}
-
-export function removeGuildFromWhitelist(guildId) {
-  console.log("Notice: Whitelist command is disabled. Managed via Environment Variables.");
-  return false;
-}
-
-export function isGuildWhitelisted(guildId) {
-  // Pull the current list of servers from memory (which loadData already parsed from Northflank)
-  const currentData = loadData();
+// Write new /setup configurations to MongoDB
+export async function saveServerConfig(guildId, channelId, roleId) {
+  if (!serversCollection) return;
   
-  // Return true if the guildId is found in the array of whitelisted servers
-  return currentData.servers.includes(guildId);
+  // 1. Save to cloud database
+  await serversCollection.updateOne(
+    { guildId: guildId },
+    { $set: { guildId, channelId, roleId } },
+    { upsert: true }
+  );
+
+  // 2. Update local memory immediately
+  const existing = memoryDb.servers.find(s => s.id === guildId);
+  if (existing) {
+    existing.channel = channelId;
+    existing.roleId = roleId;
+  } else {
+    memoryDb.servers.push({ id: guildId, channel: channelId, roleId });
+  }
 }
+
