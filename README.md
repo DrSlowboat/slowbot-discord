@@ -37,7 +37,7 @@ To start off with, you're going to need to create a Discord app through their [D
 1. Ignore your public key (this won't be relevant for deploying the bot).
 2. Note down your **Application ID**.
 3. Navigate to the **Bot** panel, click on reset token, authenticate, and note down your token. **Do not share this token with anyone.**
-> **Note:** If this token appears in an unencrypted form anywhere online, the best-case scenario is Discord immediately killing your version of the bot. The worst case is someone hijacking it and, because of the permissions it requires, completely destroying your server.*
+> **Note:** If this token appears in an unencrypted form anywhere online, the best-case scenario is Discord immediately killing your version of the bot. The worst case is someone hijacking it and, because of the permissions it requires, completely destroying your server.
 4. To set the bot to private, go to Installation, disable User Install (to make it Guild Install only), and set the install link to None (we'll be generating our own).
 5. Skip OAuth2 for now (you don't actually need to do this, it's just more intuitive) and head over to the Bot tab. Disable the Public Bot setting and save your changes.
 6. Navigate to OAuth2 and in the OAuth2 URL generator, grant it the following privileges: `applications.commands` (required for server-specific setup) and `bot` (required for functionality).
@@ -82,7 +82,7 @@ To create your own version of this app on Northflank:
    * `TOKEN`: Your Discord Bot Token (the token you generated)
    * `CLIENT_ID`: Your Discord Bot Client ID (The Application ID)
    * `MONGO_URI`: This is the MongoDB where your bot's server, channel and role list will be stored.
-   * `PROXY_URL`: This is in case your Proxy fails to poll the Warframe API. Just change the proxy URL here (look for elite proxies that are https and google accessible on your free proxy website of choice.
+   * `PROXY_URL`: This is in case your Proxy fails to poll the Warframe API. Just change the proxy URL here (look for elite proxies that are https and google accessible on your free proxy website of choice.)
 5. Once that's done, Northflank will take care of the rest. You're good to go! 
 
 ### How to Install The Bot on your Server
