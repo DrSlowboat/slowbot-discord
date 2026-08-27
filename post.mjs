@@ -71,7 +71,8 @@ export function initBroadcaster(client, cascadeEvents) {
     let db = loadData();
     const nowSecs = Math.floor(Date.now() / 1000);
 
-    if (!db.servers || Object.keys(db.servers).length === 0) {
+    // Updated to standard array length check
+    if (!db.servers || db.servers.length === 0) {
       console.warn("Broadcast aborted: No servers registered in database. Run /setup.");
       return;
     }
@@ -80,10 +81,14 @@ export function initBroadcaster(client, cascadeEvents) {
       await cleanupOldMessages(client, db.activeCascade);
     }
 
-    const broadcastPromises = Object.entries(db.servers).map(async ([guildId, serverConfig]) => {
+    // Updated to map through the array directly and use the correct property names
+    const broadcastPromises = db.servers.map(async (serverConfig) => {
+      const guildId = serverConfig.id;
+      const targetChannel = serverConfig.channel;
+
       try {
-        const channel = await client.channels.fetch(serverConfig.channelId).catch(err => {
-          console.error(`Failed to fetch channel ${serverConfig.channelId} in guild ${guildId}:`, err.message);
+        const channel = await client.channels.fetch(targetChannel).catch(err => {
+          console.error(`Failed to fetch channel ${targetChannel} in guild ${guildId}:`, err.message);
           return null;
         });
         
@@ -109,20 +114,22 @@ export function initBroadcaster(client, cascadeEvents) {
 
         const pingText = serverConfig.roleId ? `<@&${serverConfig.roleId}>\n` : "";
                
-          const msg = await channel.send({
-            content: `${pingText} Cascade up till <t:${cascadeData.expiry}:t>. Expires <t:${cascadeData.expiry}:R>.`,
-            embeds: [embed],
-            components: [row]
-          }).catch(err => {
-            console.error(`Missing permissions or failed to send in channel ${channel.name} (${channel.id}):`, err.message);
-            throw err;
-          });
+        const msg = await channel.send({
+          content: `${pingText} Cascade up till <t:${cascadeData.expiry}:t>. Expires <t:${cascadeData.expiry}:R>.`,
+          embeds: [embed],
+          components: [row]
+        }).catch(err => {
+          console.error(`Missing permissions or failed to send in channel ${channel.name} (${channel.id}):`, err.message);
+          throw err;
+        });
        
-         console.log(`Successfully posted LFG to ${channel.name}`);
-         return { guildId, channelId: serverConfig.channelId, messageId: msg.id };
-       } catch (err) {
-         return null;
-       }
+        console.log(`Successfully posted LFG to ${channel.name}`);
+        
+        // Ensure channelId is saved for the sync/cleanup functions
+        return { guildId, channelId: targetChannel, messageId: msg.id };
+      } catch (err) {
+        return null;
+      }
     });
 
     const results = await Promise.all(broadcastPromises);
