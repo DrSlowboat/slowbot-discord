@@ -51,10 +51,8 @@ To start off with, you're going to need to create a Discord app through their [D
 ### Create a Fork of This Repository for your Personal Use
 
 1. Fork the repo, then fetch it to the location of your choice.
-2. Navigate to the directory in your terminal and run 
-\`\`\`bash
-npm install
-\`\`\`
+2. Navigate to the directory in your terminal and run 'npm install'.
+
 This will automatically read the \`package.json\` and install the necessary packages.
 *   **discord.js:** The core library for interacting with the Discord API.
 *   **mongodb:** The official driver for connecting the bot to a MongoDB Atlas database.
@@ -65,17 +63,15 @@ This will automatically read the \`package.json\` and install the necessary pack
 1. Go to [MongoDB Atlas](https://www.mongodb.com/atlas) and create a free account.
 2. Deploy a **Free M0 Cluster**.
 3. Under **Database Access**, create a new database user and save the password.
-4. Under **Network Access**, add the IP \`0.0.0.0/0\` so your cloud host can connect to it.
+4. Under **Network Access**, add the IP 0.0.0.0 so your cloud host can connect to it.
 5. Click **Connect**, select **Drivers** (Node.js), and copy your connection string. 
-6. Replace \`<password>\` in the string with your database user password and save this for later, you'll be using this in your Variables in the next step.
+6. Replace 'password' in the string with your database user password and save this for later, you'll be using this in your Variables in the next step.
 
 ### Host Your Own Instance
 
 You will need to host this bot on a Virtual Private Server (VPS) so it runs 24/7. My personal choice is Northflank, though Railway and Koyeb are also great options and this bot is pre-configured to work with those.
 
 #### Northflank Setup Guide
-
-I use Northflank just because it's free and does the job. Railway and Koyeb are also great alternatives.
 
 To create your own version of this app on Northflank:
 
@@ -85,7 +81,6 @@ To create your own version of this app on Northflank:
 4. Go to the **Variables** tab in your Northflank project and add the following:
    * `TOKEN`: Your Discord Bot Token (the token you generated)
    * `CLIENT_ID`: Your Discord Bot Client ID (The Application ID)
-	* `OWNER_ID`: Your Discord User ID. You can find out what this is by swapping to developer mode, clicking on your user and copying your user ID. 
    * `MONGO_URI`: This is the MongoDB where your bot's server, channel and role list will be stored.
    * `PROXY_URL`: This is in case your Proxy fails to poll the Warframe API. Just change the proxy URL here (look for elite proxies that are https and google accessible on your free proxy website of choice.
 5. Once that's done, Northflank will take care of the rest. You're good to go! 
