@@ -1,8 +1,8 @@
 # Slowbot
 
-<img align="right" src="Slowbot.png" width="200" alt="Cephalon Slowbot Logo">
+<img align="right" src="Slowbot.png" width="200" alt="Slowbot Logo">
 
-Cephalon Slowbot is a cross-server and platform Warframe LFG and alert bot for Steel Path Void Cascade Fissures. It monitors DE's API to detect active Steel Path Void Cascades and sends a notification when they pop up to every server it's invited to. The message will stay up for the duration of the cascade and give members of your server the option to "board". Once they select this, they'll be prompted to input their IGN and be assigned to a squad alongside everyone else who's done the same, regardless of which server they boarded from. All that's left is to send an in-game whisper, send out the invites, roll tile (if that's your thing) and get cascading!
+Slowbot is a cross-server and platform Warframe LFG and alert bot for Steel Path Void Cascade Fissures. It monitors DE's API to detect active Steel Path Void Cascades and sends a notification when they pop up to every server it's invited to. The message will stay up for the duration of the cascade and give members of your server the option to "board". Once they select this, they'll be prompted to input their IGN and be assigned to a squad alongside everyone else who's done the same, regardless of which server they boarded from. All that's left is to send an in-game whisper, send out the invites, roll tile (if that's your thing) and get cascading!
 
 ## Features
 
@@ -14,7 +14,7 @@ Cephalon Slowbot is a cross-server and platform Warframe LFG and alert bot for S
 
 ## Setup
 
-Once you've invited Cephalon Slowbot (or any of its iterations) to your server, you'll need to get it set up. 
+Once you've invited Slowbot (or any of its iterations) to your server, you'll need to get it set up. 
 
 1. Decide which channel you'd like it to post cascade notifications in. Make sure to add the bot to this channel, it will not automatically add itself to any channels because I have programmed it to be as unintrusive as possible. It will not read, message or add itself to channels you haven't manually added it to. 
 2. Type `/guide` if you'd like it to inform people how to use the bot, how to make sure they're ready for a cascade, and ensure that they know what to expect upon clicking board. 
@@ -24,7 +24,7 @@ Once you've invited Cephalon Slowbot (or any of its iterations) to your server, 
 
 ## Creating your own version of this app
 
-The Discord-specific instance of Cephalon Slowbot is hosted by me and is meant as a way for my alliance to cascade together. It isn't meant as a global LFG tool, but rather to team up with people I know and play with without having to worry about being in the same servers at the same time or pinging multiple channels.
+The Discord-specific instance of Slowbot is hosted by me and is meant as a way for my alliance to cascade together. It isn't meant as a global LFG tool, but rather to team up with people I know and play with without having to worry about being in the same servers at the same time or pinging multiple channels.
 
 However, I am firmly against elitism and have no intention of making this bot exclusive to servers within my alliance. Its purpose is to encourage cooperation across the entire Warframe community, and get people into my favourite game mode: Void Cascade.
 
@@ -102,7 +102,7 @@ If you'd like to track, test, provide feedback, or contribute to the bot's funct
     <img title="" src="https://cdn.prod.website-files.com/6257adef93867e50d84d30e2/66e3d74e9607e61eeec9c91b_Logo.svg" alt="Discord">
 </a><br>
 
-If Cephalon Slowbot helped you make good use of your mod drop chance booster, any donation towards my caffeine addiction, further project development, streams/YouTube, and/or getting me to TennoCon would be much appreciated! 
+If Slowbot helped you make good use of your mod drop chance booster, any donation towards my caffeine addiction, further project development, streams/YouTube, and/or getting me to TennoCon would be much appreciated! 
 <br><br><a href="https://ko-fi.com/MrSlowboat">
   <img src="DrSlowboat.png" width="150" alt="DrSlowboat">
 </a><br>

@@ -56,7 +56,7 @@ client.login(TOKEN);
 const port = process.env.PORT || 8080;
 const server = http.createServer((req, res) => {
   res.writeHead(200);
-  res.end('Cephalon Slowbot is active.');
+  res.end('Slowbot is active.');
 }).listen(port, () => {
   console.log(`Health check server listening on port ${port}`);
 });

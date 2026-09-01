@@ -1,5 +1,5 @@
 {
-  "name": "cephalon-slowbot-discord",
+  "name": "slowbot-discord",
   "version": "1.2.0",
   "description": "Cross-server Discord LFG and alert bot for Warframe's Void Cascade.",
   "main": "controller.mjs",

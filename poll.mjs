@@ -53,7 +53,7 @@ async function checkWarframeAPI() {
       // Avoids ghost cascades
       if ((targetExpirySecs - nowSecs) > 300) {
         if (!db.activeCascade || targetId !== db.activeCascade.id) {
-          console.log("Cascade detected. Emitting 'newCascade' event.");
+          console.log("Cascade detected. Posting 'newCascade'.");
           
           cascadeEvents.emit('newCascade', {
             id: targetId,
