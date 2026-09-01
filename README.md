@@ -1,6 +1,6 @@
 # Slowbot
 
-<img align="right" src="CephalonSlowbot.png" width="200" alt="Cephalon Slowbot Logo">
+<img align="right" src="Slowbot.png" width="200" alt="Cephalon Slowbot Logo">
 
 Cephalon Slowbot is a cross-server and platform Warframe LFG and alert bot for Steel Path Void Cascade Fissures. It monitors DE's API to detect active Steel Path Void Cascades and sends a notification when they pop up to every server it's invited to. The message will stay up for the duration of the cascade and give members of your server the option to "board". Once they select this, they'll be prompted to input their IGN and be assigned to a squad alongside everyone else who's done the same, regardless of which server they boarded from. All that's left is to send an in-game whisper, send out the invites, roll tile (if that's your thing) and get cascading!
 
