@@ -1,4 +1,4 @@
-# Cephalon Slowbot
+# Slowbot
 
 <img align="right" src="CephalonSlowbot.png" width="200" alt="Cephalon Slowbot Logo">
 
@@ -89,7 +89,7 @@ To create your own version of this app on Northflank:
 
 Once the bot is deployed on the VPS of your choice, all that's left to do is install it. Click the OAuth2 link you generated earlier to add it to your server. Use the `/guide` and `/setup` commands as an administrator of the server in a text/announcements channel. 
 
-And that's it! Your iteration of Cephalon Slowbot is up and running! Go turn some thrax into prime parts and arcanes! 
+And that's it! Your iteration of Slowbot is up and running! Go turn some thrax into prime parts and arcanes! 
 
 This project is fully open source under the MIT license, so as long as you have the license file in your fork, you're free to do with it what you will. While I would really appreciate being credited in your app description, you're under no compulsion to do so.
 
@@ -104,7 +104,7 @@ If you'd like to track, test, provide feedback, or contribute to the bot's funct
 
 If Cephalon Slowbot helped you make good use of your mod drop chance booster, any donation towards my caffeine addiction, further project development, streams/YouTube, and/or getting me to TennoCon would be much appreciated! 
 <br><br><a href="https://ko-fi.com/MrSlowboat">
-  <img src="MrSlowboat.png" width="150" alt="MrSlowboat">
+  <img src="DrSlowboat.png" width="150" alt="DrSlowboat">
 </a><br>
 <a href="https://ko-fi.com/MrSlowboat">
   <img title="" src="https://cdn.prod.website-files.com/5c14e387dab576fe667689cf/670f5a0172b90570b1c21dab_kofi_logo.png" alt="Ko-Fi" width="131">
